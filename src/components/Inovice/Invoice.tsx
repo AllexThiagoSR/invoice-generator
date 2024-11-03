@@ -1,33 +1,15 @@
+import { InvoiceInfos } from '@/app/page';
 import { Typography } from '@material-tailwind/react';
 import Image from 'next/image';
 import React from 'react';
 
 const TABLE_HEAD: string[] = ['QUANT.', 'DESCRIÇÃO', 'PREÇO UNIT.', 'TOTAL'];
 
-const TABLE_ROWS: { quantity: number, description: string, unitPrice: number }[] = [
-  {
-    quantity: 2,
-    description: 'Serviço dado e cumprido',
-    unitPrice: 600
-  },
-  {
-    quantity: 2,
-    description: 'Serviço dado e cumprido',
-    unitPrice: 600
-  },
-  {
-    quantity: 2,
-    description: 'Serviço dado e cumprido',
-    unitPrice: 600
-  },
-  {
-    quantity: 2,
-    description: 'Serviço dado e cumprido',
-    unitPrice: 600
-  }
-];
+type Props = {
+  invoice: InvoiceInfos
+};
 
-function Invoice() {
+function Invoice({ invoice }: Props) {
   return (
     <section className='relative h-[100vh] w-[50%] p-10 flex flex-col gap-1'>
       <header className='flex gap-2'>
@@ -41,7 +23,6 @@ function Invoice() {
           <div>
             <Typography
               variant='h3'
-              // className='font-bold text-[25px]'
               placeholder={undefined}
               onPointerEnterCapture={undefined}
               onPointerLeaveCapture={undefined}
@@ -61,16 +42,16 @@ function Invoice() {
           >
             NOTA
           </Typography>
-          <p><span className='font-bold'>Data:</span>{new Date().toLocaleDateString()}</p>
+          <p><span className='font-bold'>Data:</span><span>{new Date().toLocaleDateString('pt-BR')}</span></p>
         </div>
       </header>
       <section className='border border-black p-2 rounded-lg'>
-        <p><span className='font-bold'>Cliente:</span></p>
-        <p><span className='font-bold'>Endereço:</span></p>
-        <div className='flex flex-wrap'>
-          <p className='min-w-[150px]'><span className='font-bold'>Bairro:</span></p>
-          <p className='min-w-[150px]'><span className='font-bold'>Cidade:</span></p>
-          <p className='min-w-[150px]'><span className='font-bold'>Telefone/Celular:</span></p>
+        <p><span className='font-bold'>Cliente: </span><span>{invoice.clientName}</span></p>
+        <p><span className='font-bold'>Endereço: </span><span>{invoice.address}</span></p>
+        <div className='flex flex-wrap gap-2'>
+          <p className='min-w-[150px]'><span className='font-bold'>Bairro: </span><span>{invoice.neighborhood}</span></p>
+          <p className='min-w-[150px]'><span className='font-bold'>Cidade: </span><span>{invoice.city}</span></p>
+          <p className='min-w-[150px]'><span className='font-bold'>Telefone/Celular: </span><span>{invoice.cellphone}</span></p>
         </div>
       </section>
       <section className='border border-black rounded-lg overflow-hidden'>
@@ -97,7 +78,7 @@ function Invoice() {
             </tr>
           </thead>
           <tbody className='border border-black h-[500px]'>
-            {TABLE_ROWS.map(({ quantity, description, unitPrice }, index) => {
+            {invoice.services.map(({ quantity, description, unitPrice }, index) => {
               return (
                 <tr key={'row-' + index} className='rounded-lg'>
                   <td className={' min-h-[20px] border border-black'}>
@@ -156,15 +137,12 @@ function Invoice() {
       </section>
       <section className='w-fit self-end border border-black rounded-lg overflow-hidden pr-2'>
         <p className='flex items-center gap-2'>
-          <Typography
+          <span
             className='bg-black text-white p-2'
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
           >
             TOTAL:
-          </Typography>
-          <span>R$ {TABLE_ROWS.reduce((acc, { quantity, unitPrice }) => acc + (quantity * unitPrice), 0).toFixed(2).replace('.', ',')}</span>
+          </span>
+          <span>R$ {invoice.services.reduce((acc, { quantity, unitPrice }) => acc + (quantity * unitPrice), 0).toFixed(2).replace('.', ',')}</span>
         </p>
       </section>
       <footer className='flex h-[80px] items-end justify-around border border-black p-2 pb-1 rounded-lg'>
