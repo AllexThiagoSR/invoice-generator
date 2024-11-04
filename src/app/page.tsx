@@ -3,6 +3,7 @@
 import Invoice from "@/components/Inovice/Invoice";
 import InvoiceForm from "@/components/InvoiceForm/InvoiceForm";
 import { useState } from "react";
+import { usePDF } from "react-to-pdf";
 
 export type InvoiceInfos = {
   clientName: string,
@@ -19,6 +20,7 @@ export type InvoiceInfos = {
 };
 
 export default function Home() {
+  const { toPDF, targetRef } = usePDF({ filename: `${Date.now()}-nota.pdf` });
   const [formValues, setFormValues] = useState<InvoiceInfos>({
     clientName: '',
     address: '',
@@ -31,8 +33,8 @@ export default function Home() {
 
   return (
     <main className="flex justify-between">
-      <InvoiceForm invoice={formValues} setInvoice={setFormValues}/>
-      <Invoice invoice={formValues} />
+      <InvoiceForm invoice={formValues} setInvoice={setFormValues} toPDF={toPDF}/>
+      <Invoice invoice={formValues} targetRef={targetRef} />
     </main>
   );
 }

@@ -1,4 +1,3 @@
-// import { Textarea } from '@material-tailwind/react'
 import { Input } from '../exports'
 import { InvoiceInfos } from '@/app/page'
 import { Button, List, ListItem } from '@material-tailwind/react';
@@ -7,9 +6,10 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 type Props = {
   invoice: InvoiceInfos,
   setInvoice: Dispatch<SetStateAction<InvoiceInfos>>;
+  toPDF: () => void;
 }
 
-export default function InvoiceForm({invoice, setInvoice}: Props) {
+export default function InvoiceForm({invoice, setInvoice, toPDF}: Props) {
   const [service, setService] = useState<{ quantity: number, description: string, unitPrice: number }>({ quantity: 0,  description: '', unitPrice: 0 });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -79,10 +79,7 @@ export default function InvoiceForm({invoice, setInvoice}: Props) {
       <div className='flex gap-1 items-center w-[100%]'>
         <Input
           containerProps={{
-            className: 'w-[150px]'
-          }}
-          labelProps={{
-            className: '150px'
+            className: 'w-[100px]'
           }}
           crossOrigin={""}
           label="Quantidade"
@@ -94,10 +91,7 @@ export default function InvoiceForm({invoice, setInvoice}: Props) {
         />
         <Input
           containerProps={{
-            className: 'w-[150px]'
-          }}
-          labelProps={{
-            className: '150px'
+            className: 'w-[100px]'
           }}
           crossOrigin={""}
           label="Preço Unitário"
@@ -111,10 +105,7 @@ export default function InvoiceForm({invoice, setInvoice}: Props) {
           crossOrigin={""}
           label="Descrição"
           containerProps={{
-            className: 'w-[150px]'
-          }}
-          labelProps={{
-            className: '150px'
+            className: 'w-[100px]'
           }}
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
@@ -141,10 +132,10 @@ export default function InvoiceForm({invoice, setInvoice}: Props) {
               onPointerLeaveCapture={undefined}
               className='border border-black justify-between'
             >
-              <div className='flex flex-col'>
+              <div className='flex flex-col max-w-[500px] text-wrap'>
                 <p className='text-black'>Quantidade: {service.quantity}</p>
                 <p className='text-black'>Preço Unitário: R$ {service.unitPrice.toFixed(2).replace('.', ',')}</p>
-                <p className='text-black'>Descrição: {service.description}</p>
+                <p className='text-black text-wrap'>Descrição: {service.description}</p>
               </div>
               <Button
                 placeholder={undefined}
@@ -165,6 +156,18 @@ export default function InvoiceForm({invoice, setInvoice}: Props) {
         onPointerLeaveCapture={undefined}
         className='self-center'
         type='button'
+        onClick={() => {
+          toPDF();
+          setInvoice({
+            clientName: '',
+            address: '',
+            observations: '',
+            neighborhood: '',
+            city: '',
+            cellphone: '',
+            services: [],
+          });
+        }}
       >
         Salvar
       </Button>

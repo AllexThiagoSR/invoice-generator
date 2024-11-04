@@ -6,12 +6,15 @@ import React from 'react';
 const TABLE_HEAD: string[] = ['QUANT.', 'DESCRIÇÃO', 'PREÇO UNIT.', 'TOTAL'];
 
 type Props = {
-  invoice: InvoiceInfos
+  invoice: InvoiceInfos,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  targetRef: React.MutableRefObject<any>,
 };
 
-function Invoice({ invoice }: Props) {
+function Invoice({ invoice, targetRef }: Props) {
+
   return (
-    <section className='relative h-[100vh] w-[50%] p-10 flex flex-col gap-1'>
+    <section ref={targetRef} className='relative h-[100vh] w-[50%] p-10 flex flex-col gap-1'>
       <header className='flex gap-2'>
         <div className='flex gap-2 border border-black p-2 grow rounded-lg'>
           <Image
@@ -21,27 +24,17 @@ function Invoice({ invoice }: Props) {
             alt={''}
           />
           <div>
-            <Typography
-              variant='h3'
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-            >
+            <h3>
               Cristiano Sobral
-            </Typography>
+            </h3>
             <p className='text-[16px]'>Sobral Soldas</p>
             <p className='text-[16px]'>(94) 99181-7094</p>
           </div>
         </div>
         <div className='flex items-center justify-between border border-black p-2 rounded-lg flex-col'>
-          <Typography
-            variant='h3'
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-          >
+          <h3>
             NOTA
-          </Typography>
+          </h3>
           <p><span className='font-bold'>Data:</span><span>{new Date().toLocaleDateString('pt-BR')}</span></p>
         </div>
       </header>
@@ -137,12 +130,10 @@ function Invoice({ invoice }: Props) {
       </section>
       <section className='w-fit self-end border border-black rounded-lg overflow-hidden pr-2'>
         <p className='flex items-center gap-2'>
-          <span
-            className='bg-black text-white p-2'
-          >
-            TOTAL:
+          <span className='border-r border-black p-2'>
+            TOTAL
           </span>
-          <span>R$ {invoice.services.reduce((acc, { quantity, unitPrice }) => acc + (quantity * unitPrice), 0).toFixed(2).replace('.', ',')}</span>
+          R$ {invoice.services.reduce((acc, { quantity, unitPrice }) => acc + (quantity * unitPrice), 0).toFixed(2).replace('.', ',')}
         </p>
       </section>
       <footer className='flex h-[80px] items-end justify-around border border-black p-2 pb-1 rounded-lg'>
