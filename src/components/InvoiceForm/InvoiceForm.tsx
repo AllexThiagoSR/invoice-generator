@@ -76,42 +76,44 @@ export default function InvoiceForm({invoice, setInvoice, toPDF}: Props) {
         name='cellphone'
         onChange={handleChange} 
       />
-      <div className='flex gap-1 items-center w-[100%]'>
-        <Input
-          containerProps={{
-            className: 'w-[100px]'
-          }}
-          crossOrigin={""}
-          label="Quantidade"
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-          value={service.quantity}
-          onChange={({ target }) => {setService({ ...service, quantity: parseInt(target.value) })}}
-          type='number'
-        />
-        <Input
-          containerProps={{
-            className: 'w-[100px]'
-          }}
-          crossOrigin={""}
-          label="Preço Unitário"
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-          value={service.unitPrice}
-          onChange={({ target }) => {setService({ ...service, unitPrice: parseFloat(target.value) })}}
-          type='number'
-        />
-        <Input
-          crossOrigin={""}
-          label="Descrição"
-          containerProps={{
-            className: 'w-[100px]'
-          }}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-          value={service.description}
-          onChange={({ target }) => {setService({ ...service, description: target.value })}}
-        />
+      <div className='flex flex-col gap-2 items-center w-[100%]'>
+        <div className='flex justify-between items-center w-[100%]'>
+          <Input
+            containerProps={{
+              className: 'w-[100px]'
+            }}
+            crossOrigin={""}
+            label="Quantidade"
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+            value={service.quantity}
+            onChange={({ target }) => {setService({ ...service, quantity: parseInt(target.value) })}}
+            type='number'
+          />
+          <Input
+            containerProps={{
+              className: 'w-[100px]'
+            }}
+            crossOrigin={""}
+            label="Preço Unitário"
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+            value={service.unitPrice}
+            onChange={({ target }) => {setService({ ...service, unitPrice: parseFloat(target.value) })}}
+            type='number'
+          />
+          <Input
+            crossOrigin={""}
+            label="Descrição"
+            containerProps={{
+              className: 'w-[100px]'
+            }}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+            value={service.description}
+            onChange={({ target }) => {setService({ ...service, description: target.value })}}
+          />
+        </div>
         <Button
           placeholder={undefined}
           onPointerEnterCapture={undefined}
@@ -122,7 +124,7 @@ export default function InvoiceForm({invoice, setInvoice, toPDF}: Props) {
           Adicionar serviço
         </Button>
       </div>
-      <List placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+      <List className='overflow-y-scroll max-h-[500px]' placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
         {
           invoice.services.map((service, index) => (
             <ListItem

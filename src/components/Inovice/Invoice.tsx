@@ -47,8 +47,8 @@ function Invoice({ invoice, targetRef }: Props) {
           <p className='min-w-[150px]'><span className='font-bold'>Telefone/Celular: </span><span>{invoice.cellphone}</span></p>
         </div>
       </section>
-      <section className='border border-black rounded-lg overflow-hidden'>
-        <table className="w-full min-w-max table-auto text-center rounded-lg overflow-hidden">
+      <section className='border border-black rounded-lg overflow-hidden min-h-[500px]'>
+        <table className="w-full min-w-max table-auto text-center rounded-lg overflow-hidden h-[100%]">
           <thead className='border border-black'>
             <tr>
               {TABLE_HEAD.map((head) => (
@@ -70,7 +70,7 @@ function Invoice({ invoice, targetRef }: Props) {
               ))}
             </tr>
           </thead>
-          <tbody className='border border-black h-[500px]'>
+          <tbody className='border border-black'>
             {invoice.services.map(({ quantity, description, unitPrice }, index) => {
               return (
                 <tr key={'row-' + index} className='rounded-lg'>
